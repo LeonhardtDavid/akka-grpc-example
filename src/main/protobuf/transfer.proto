@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package transfers;
+
+option go_package = "davitux.com/transfers";
+
+option java_package = "com.davitux.transfers";
+option java_multiple_files = true;
+
+message TransferRequest {
+    string from = 1;
+    string to = 2;
+    int64 amount = 3;
+}
+
+message TransferResponse {
+
+    reserved 2, 3, 5;
+    
+    enum TransferStatus {
+        APPROVE = 0;
+        REJECTED = 1;
+    }
+
+    TransferRequest request = 1;
+    TransferStatus status = 4;
+
+    repeated string info = 6;
+
+}
+
+service TransferService {
+    rpc Execute (TransferRequest) returns (TransferResponse) {}
+    rpc ExecuteAll (stream TransferRequest) returns (TransferResponse) {}
+    rpc History (google.protobuf.Empty) returns (stream TransferResponse) {}
+    rpc ExecuteEach (stream TransferRequest) returns (stream TransferResponse) {}
+}
