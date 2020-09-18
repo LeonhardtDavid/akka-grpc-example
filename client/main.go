@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"davitu.com/transfers/transfers"
+	"fmt"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -28,5 +29,5 @@ func main() {
 		log.Fatalln("Response Error", err)
 	}
 
-	log.Println(response)
+	log.Println(fmt.Sprintf("Request: {%s}, Status: %s, Info: %s", response.Request, response.Status, response.Info))
 }
